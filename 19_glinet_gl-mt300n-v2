@@ -29,7 +29,7 @@ cp -R ../19_files/* files/
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 
-cp ../19_config.ninux .config
+cp ../19_config.mini .config
 echo "CONFIG_TARGET_ramips=y" >> .config
 echo "CONFIG_TARGET_ramips_mt76x8=y" >> .config
 echo "CONFIG_TARGET_ramips_mt76x8_DEVICE_glinet_gl-mt300n-v2=y" >> .config
