@@ -3,7 +3,7 @@ set -e
 
 BRANCH="openwrt-21.02"
 SOURCE_DIR="ninux-21"
-BUILD_DIR="/mnt/nfs-firmware/$BRANCH/Totolink-X5000R"
+BUILD_DIR="/mnt/nfs-firmware/$BRANCH/GL-MT300N-v2"
 REVISION=$(git describe --tags --always)
 
 if [ ! -d $SOURCE_DIR ]; then

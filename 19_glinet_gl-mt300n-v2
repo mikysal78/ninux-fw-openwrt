@@ -3,7 +3,7 @@ set -e
 
 BRANCH="openwrt-19.07"
 SOURCE_DIR="ninux-19"
-BUILD_DIR="/mnt/nfs-firmware/$BRANCH/TL-C2600"
+BUILD_DIR="/mnt/nfs-firmware/$BRANCH/GL-MT300N-v2"
 #REVISION=$(git describe --tags --always)
 
 if [ ! -d $SOURCE_DIR ]; then
