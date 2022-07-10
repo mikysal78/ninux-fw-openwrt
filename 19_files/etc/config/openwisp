@@ -1,0 +1,4 @@
+config controller 'http'
+	option url 'https://controller.nnxx.ninux.org'
+	option shared_secret 'Secretn1nuxB4s'
+	option management_interface 'vpnbas'

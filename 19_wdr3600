@@ -1,0 +1,47 @@
+#!/bin/bash 
+set -e
+
+BRANCH="openwrt-19.07"
+SOURCE_DIR="ninux-19"
+BUILD_DIR="/mnt/nfs-firmware/$BRANCH/TL-WDR3600"
+#REVISION=$(git describe --tags --always)
+
+if [ ! -d $SOURCE_DIR ]; then
+   mkdir $SOURCE_DIR
+   git clone --branch "$BRANCH" https://github.com/openwrt/openwrt.git $SOURCE_DIR
+fi;
+
+cd $SOURCE_DIR
+git pull origin "$BRANCH"
+
+if [ ! -f feeds.conf ]; then
+cat feeds.conf.default > feeds.conf
+echo "src-git openwisp https://github.com/openwisp/openwisp-config.git;master" >> feeds.conf
+echo "src-git monitoring https://github.com/openwisp/openwrt-openwisp-monitoring.git;master" >> feeds.conf
+fi;
+
+if [ -d files ]; then
+   rm -rf files
+fi;
+cp -R ../19_files/* files/
+
+./scripts/feeds clean -a
+./scripts/feeds update -a
+./scripts/feeds install -a
+
+cp ../19_config.ninux .config
+echo "CONFIG_TARGET_ath79=y" >> .config
+echo "CONFIG_TARGET_ath79_generic=y" >> .config
+echo "CONFIG_TARGET_ath79_generic_DEVICE_tplink_tl-wdr3600-v1=y" >> .config
+
+make defconfig
+make clean
+make -j$(nproc) BUILD_LOG=1
+
+mkdir -p $BUILD_DIR
+echo "Copying ./bin contents to $BUILD_DIR"
+cp -r bin/* $BUILD_DIR
+echo "Copying .config file to $BUILD_DIR/config.txt"
+cp .config $BUILD_DIR/config.txt
+echo "Cleaning bin dir"
+rm -rf ./bin/*
